@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+}
+
+/* ─── Globals ──────────────────────────────────────── */
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 20px;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #fafbfc;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Geçiş Animasyonları ──────────────────────────── */
+
+.page-transition {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── HeroUI Modal Düzeltmeleri ────────────────────── */
+
+[role="dialog"][data-open="true"] {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  transform: none !important;
+}
+
+[data-slot="backdrop"],
+[data-backdrop] {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+[role="presentation"] [data-slot="backdrop"],
+[role="presentation"] [data-backdrop],
+.modalBackdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 40 !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: none !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* ─── Input Erişilebilirlik ────────────────────────── */
+
+input, textarea, [role="textbox"], [role="combobox"], button, [role="button"] {
+  position: relative !important;
+  z-index: 50 !important;
+  pointer-events: auto !important;
+}
