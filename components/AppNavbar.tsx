@@ -194,6 +194,18 @@ export const AppNavbar = () => {
                     📋 Siparişlerim
                   </Link>
 
+                  {/* Favorilerim */}
+                  <Link
+                    href="/favorites"
+                    className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                      isActivePath("/favorites")
+                        ? "bg-pink-100 text-pink-700"
+                        : "text-gray-600 hover:bg-gray-100"
+                    }`}
+                  >
+                    ❤️ Favorilerim
+                  </Link>
+
                   {/* Profil */}
                   <Link
                     href="/profile"
@@ -317,6 +329,13 @@ export const AppNavbar = () => {
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     📋 Siparişlerim
+                  </Link>
+                  <Link
+                    href="/favorites"
+                    className="block px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-100"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    ❤️ Favorilerim
                   </Link>
                   <Link
                     href="/profile"

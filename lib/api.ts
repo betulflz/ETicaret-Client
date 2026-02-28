@@ -51,7 +51,17 @@ export const authApi = {
 /* ─── Products ─────────────────────────────────────── */
 
 export const productsApi = {
-  getAll: () => api.get("/products"),
+  getAll: (filters: import("./types").ProductFilters = {}) => {
+    const { search, minPrice, maxPrice, inStock, sortBy, order, page = 1, limit = 12 } = filters;
+    const params: Record<string, string | number | boolean> = { page, limit };
+    if (search) params.search = search;
+    if (minPrice !== undefined) params.minPrice = minPrice;
+    if (maxPrice !== undefined) params.maxPrice = maxPrice;
+    if (inStock) params.inStock = true;
+    if (sortBy) params.sortBy = sortBy;
+    if (order) params.order = order;
+    return api.get("/products", { params });
+  },
 
   getById: (id: number | string) => api.get(`/products/${id}`),
 
@@ -74,7 +84,7 @@ export const cartApi = {
   get: () => api.get("/cart"),
 
   add: (productId: number | string, quantity: number) =>
-    api.post("/cart/add", { productId, quantity }),
+    api.post("/cart/add", { productId: Number(productId), quantity: Number(quantity) }),
 
   update: (cartItemId: number | string, quantity: number) =>
     api.patch(`/cart/${cartItemId}`, { quantity }),
@@ -116,6 +126,61 @@ export const usersApi = {
 
   updateMe: (data: Partial<{ fullName: string; phone: string; gender: string; email: string }>) =>
     api.patch("/users/me", data),
+};
+
+/* ─── Favorites ────────────────────────────────────── */
+
+export const favoritesApi = {
+  /** Favorilere ürün ekle */
+  add: (productId: number | string) =>
+    api.post("/favorites", { productId: Number(productId) }),
+
+  /** Favori listesini getir */
+  getAll: () => api.get("/favorites"),
+
+  /** Ürün favorilerde mi kontrol et */
+  check: (productId: number | string) =>
+    api.get(`/favorites/check/${productId}`),
+
+  /** Ürünü kaç kişi favoriledi */
+  count: (productId: number | string) =>
+    api.get(`/favorites/count/${productId}`),
+
+  /** Favorilerden ürün çıkar (productId ile) */
+  remove: (productId: number | string) =>
+    api.delete(`/favorites/${productId}`),
+
+  /** Tüm favorileri temizle */
+  clearAll: () => api.delete("/favorites"),
+};
+
+/* ─── Reviews ──────────────────────────────────────── */
+
+export const reviewsApi = {
+  /** Yorum yaz */
+  create: (data: { productId: number | string; rating: number; title?: string; comment: string }) =>
+    api.post("/reviews", { ...data, productId: Number(data.productId) }),
+
+  /** Bir ürünün tüm yorumlarını getir (public) */
+  getByProduct: (productId: number | string) =>
+    api.get(`/reviews/product/${productId}`),
+
+  /** Ürünün puan istatistikleri (public) */
+  getStats: (productId: number | string) =>
+    api.get(`/reviews/stats/${productId}`),
+
+  /** Kullanıcının kendi yorumları */
+  getMyReviews: () => api.get("/reviews/my"),
+
+  /** Tek bir yorumu getir */
+  getById: (id: number | string) => api.get(`/reviews/${id}`),
+
+  /** Yorumu güncelle */
+  update: (id: number | string, data: Partial<{ rating: number; title: string; comment: string }>) =>
+    api.patch(`/reviews/${id}`, data),
+
+  /** Yorumu sil */
+  delete: (id: number | string) => api.delete(`/reviews/${id}`),
 };
 
 export default api;

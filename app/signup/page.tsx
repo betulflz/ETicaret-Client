@@ -3,7 +3,6 @@
 import * as React from "react";
 import axios from "axios";
 import Link from "next/link";
-import { Card, CardBody, CardHeader, Input, Button } from "@heroui/react";
 
 export default function SignupPage() {
   const [email, setEmail] = React.useState("");
@@ -54,77 +53,98 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md">
-        <CardHeader className="flex gap-3 bg-green-600 text-white rounded-t-lg">
-          <div className="flex flex-col">
-            <p className="text-lg font-bold">Kayıt Ol</p>
-            <p className="text-sm">TeknoStore ailesine katılın</p>
+    <div className="min-h-screen bg-linear-to-br from-emerald-50 via-white to-gray-50">
+      <section className="flex items-center justify-center py-12 px-4">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+          {/* Header */}
+          <div className="p-8 bg-linear-to-r from-emerald-600 to-emerald-700 text-white">
+            <h1 className="text-3xl font-bold tracking-tight">Kayıt Ol</h1>
+            <p className="text-sm text-emerald-100 mt-1">
+              TeknoStore ailesine katılın ve alışverişe başlayın
+            </p>
           </div>
-        </CardHeader>
-        <CardBody className="gap-4">
-          {error && (
-            <div className="bg-red-50 border-l-4 border-red-500 p-4 text-red-700">
-              <p className="font-semibold">Hata</p>
-              <p className="text-sm">{error}</p>
-            </div>
-          )}
-          {success && (
-            <div className="bg-green-50 border-l-4 border-green-500 p-4 text-green-700">
-              <p className="font-semibold">Başarı!</p>
-              <p className="text-sm">Kayıt başarıyla tamamlandı. Giriş sayfasına yönlendiriliyorsunuz...</p>
-            </div>
-          )}
-          <form onSubmit={onSubmit} className="gap-4 flex flex-col">
-            <Input
-              autoFocus
-              label="Email"
-              placeholder="örnek@mail.com"
-              variant="bordered"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <Input
-              label="Şifre"
-              placeholder="En az 6 karakter"
-              type="password"
-              variant="bordered"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <Input
-              label="Şifre Tekrar"
-              placeholder="Şifrenizi tekrar girin"
-              type="password"
-              variant="bordered"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-            <Button
-              fullWidth
-              color="success"
-              type="submit"
-              isLoading={loading}
-              className="bg-green-600 text-white font-bold"
-            >
-              {loading ? "Kayıt yapılıyor..." : "Kayıt Ol"}
-            </Button>
-          </form>
-          <p className="text-center text-sm text-gray-600">
-            Hesabın var mı?{" "}
-            <Link
-              href="/login"
-              className="text-green-600 hover:text-green-800 font-semibold"
-            >
-              Giriş Yap
-            </Link>
-          </p>
-        </CardBody>
-      </Card>
+
+          {/* Body */}
+          <div className="px-8 py-6">
+            {error && (
+              <div className="mb-5 p-4 bg-red-50 border-2 border-red-200 rounded-xl">
+                <p className="font-semibold text-red-700 text-sm">⚠️ {error}</p>
+              </div>
+            )}
+
+            {success && (
+              <div className="mb-5 p-4 bg-emerald-50 border-2 border-emerald-200 rounded-xl">
+                <p className="font-semibold text-emerald-700 text-sm">
+                  ✅ Kayıt başarıyla tamamlandı! Giriş sayfasına yönlendiriliyorsunuz...
+                </p>
+              </div>
+            )}
+
+            <form onSubmit={onSubmit} className="flex flex-col gap-5">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  E-posta Adresi
+                </label>
+                <input
+                  type="email"
+                  placeholder="ornek@mail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoFocus
+                  className="w-full h-12 px-4 text-base text-gray-900 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 placeholder-gray-400 transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Şifre
+                </label>
+                <input
+                  type="password"
+                  placeholder="En az 6 karakter"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full h-12 px-4 text-base text-gray-900 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 placeholder-gray-400 transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Şifre Tekrar
+                </label>
+                <input
+                  type="password"
+                  placeholder="Şifrenizi tekrar girin"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  className="w-full h-12 px-4 text-base text-gray-900 bg-white border-2 border-gray-300 rounded-lg focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 placeholder-gray-400 transition-all"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full h-12 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700 transition-colors text-base disabled:opacity-50 disabled:cursor-not-allowed mt-1"
+              >
+                {loading ? "Kayıt yapılıyor..." : "🚀 Kayıt Ol"}
+              </button>
+            </form>
+
+            <p className="text-center text-sm text-gray-600 mt-6">
+              Hesabın var mı?{" "}
+              <Link
+                href="/login"
+                className="text-emerald-600 hover:text-emerald-800 font-semibold"
+              >
+                Giriş Yap
+              </Link>
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

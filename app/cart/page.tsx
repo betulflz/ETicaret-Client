@@ -39,7 +39,16 @@ export default function CartPage() {
     try {
       setLoading(true);
       const res = await cartApi.get();
-      const items = Array.isArray(res.data) ? res.data : [];
+      const raw = res.data;
+      const items = Array.isArray(raw)
+        ? raw
+        : Array.isArray(raw?.items)
+          ? raw.items
+          : Array.isArray(raw?.cartItems)
+            ? raw.cartItems
+            : Array.isArray(raw?.data)
+              ? raw.data
+              : [];
       setCartItems(items);
       setError(null);
     } catch (err: any) {

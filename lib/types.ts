@@ -19,6 +19,76 @@ export interface Product {
   imageUrl?: string | null;
   image?: string | null;
   thumbnail?: string | null;
+  averageRating?: string | number;
+  reviewCount?: number;
+}
+
+/* ─── Favori Tipleri ───────────────────────────────── */
+
+export interface Favorite {
+  id: number;
+  userId: number;
+  productId: number;
+  product?: Product;
+  createdAt: string;
+}
+
+export interface FavoriteListResponse {
+  items: Favorite[];
+  count: number;
+}
+
+/* ─── Yorum / Review Tipleri ───────────────────────── */
+
+export interface Review {
+  id: number;
+  userId: number;
+  productId: number;
+  product?: Partial<Product>;
+  user?: Partial<User>;
+  rating: number;
+  title?: string;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ReviewsResponse {
+  reviews: Review[];
+  averageRating: number;
+  totalReviews: number;
+  ratingDistribution: Record<string, number>;
+}
+
+export interface ReviewStats {
+  averageRating: number;
+  totalReviews: number;
+  ratingDistribution: Record<string, number>;
+}
+
+/* ─── Ürün Filtreleme & Sayfalama Tipleri ──────────── */
+
+export interface ProductFilters {
+  search?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  inStock?: boolean;
+  sortBy?: "price" | "name" | "stock" | "id";
+  order?: "ASC" | "DESC";
+  page?: number;
+  limit?: number;
+}
+
+export interface PaginationMeta {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface PaginatedProductsResponse {
+  data: Product[];
+  meta: PaginationMeta;
 }
 
 export interface CartItem {
